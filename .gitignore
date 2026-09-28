@@ -1,5 +1,6 @@
 # Data (published separately on Zenodo)
 data/
+processed/
 
 # Intermediate / large outputs produced by the notebooks
 *.h5
@@ -44,3 +45,6 @@ ENV/
 log/
 
 CLAUDE.md
+
+# Cluster job scripts and their logs
+jobscripts/
