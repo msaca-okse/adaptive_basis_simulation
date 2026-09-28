@@ -16,6 +16,20 @@ MASKFILE = None  # simulated detector: no bad pixels, no gaps
 # Threshold (in dty units, um) used to check that a translation has a single dty value.
 DTY_STEP_TOL = 1e-6
 
+# The simulation (xrd_simulator, polarization=True) used a linearly polarized beam with
+# polarization vector = lab y = the frames' column axis = pyFAI's chi = 0 direction, i.e.
+# horizontal. pyFAI integrate2d convention: +1 horizontal, -1 vertical, 0 circular, None = off.
+POLARIZATION_FACTOR = 1.0
+
+# Output of the polarization-corrected integration, kept separate from
+# paths.integrated_path(sample) (the uncorrected run) so the two can be compared.
+OUTPUT_SUFFIX = "_polcorr"
+
+
+def output_path(sample):
+    """Polarization-corrected integrated data for this sample, without suffix."""
+    return paths.integrated_path(sample) + OUTPUT_SUFFIX
+
 
 class SimulatedScanFile:
     """

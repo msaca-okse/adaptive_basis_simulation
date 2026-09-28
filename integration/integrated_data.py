@@ -14,6 +14,8 @@ class IntegratedData:
         data.translations # (n_translations,) dty motor positions
         data.omega_deg    # (n_omega,) shared rotation sequence
         data.eta_deg      # (n_eta,) azimuthal bin centres (see note in the class)
+        data.corrections  # dict of applied intensity corrections, {} if not recorded
+        data.polarization_corrected  # True / False / None (None = json predates the record)
 
     The array is opened read-only and lazily -- nothing is loaded into memory
     until you slice it.
@@ -95,6 +97,13 @@ class IntegratedData:
         self.wavelength_A = p["geometry"]["wavelength_A"]
         self.material = p["material"]
 
+        # intensity corrections and integration settings; absent in jsons written
+        # before they were recorded, which means "unknown", not "not applied"
+        self.corrections = p.get("corrections", {})
+        self.integration = p.get("integration", {})
+        pol = self.corrections.get("polarization")
+        self.polarization_corrected = None if pol is None else bool(pol["applied"])
+
         # consistency checks between the parts of the json
         assert self.I.shape[0] == self.n_translations
         assert self.I.shape[1] == self.n_omega
@@ -118,6 +127,18 @@ class IntegratedData:
         for i, r in enumerate(self.rings):
             hkls = ", ".join(str(tuple(h)) for h in r["hkl"])
             lines.append(f"    [{i:2d}] q = {r['q_nm']:8.3f} nm^-1   hkl: {hkls}")
+
+        if self.corrections:
+            lines.append("  corrections:")
+            for name, c in self.corrections.items():
+                extra = {k: v for k, v in c.items() if k not in ("applied", "note")}
+                lines.append(f"    {name:12s} applied={c.get('applied')}  {extra if extra else c.get('note', '')}")
+        else:
+            lines.append("  corrections: not recorded (json predates it) -- polarization_corrected=None (unknown)")
+        if self.integration:
+            lines.append(f"  integration: {self.integration}")
+        else:
+            lines.append("  integration: settings not recorded")
         return "\n".join(lines)
 
     def __repr__(self):
