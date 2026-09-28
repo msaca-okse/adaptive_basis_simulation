@@ -1,0 +1,20 @@
+# Python dependencies for adaptive_basis_simulations
+#
+# Note: diffractom is not available on pip or conda for this repo.
+# Install it separately from the Zenodo release, https://doi.org/10.5281/zenodo.20431767, before running the notebooks here.
+
+dill
+h5py
+hdf5plugin
+ImageD11
+matplotlib
+numba
+numpy
+orix
+pyFAI
+pyopencl
+scikit-image
+scikit-learn
+scipy
+tqdm
+xfab
