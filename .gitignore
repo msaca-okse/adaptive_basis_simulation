@@ -48,3 +48,5 @@ CLAUDE.md
 
 # Cluster job scripts and their logs
 jobscripts/
+
+tmp/
