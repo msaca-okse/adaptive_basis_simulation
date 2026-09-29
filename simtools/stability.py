@@ -131,6 +131,97 @@ def read_coeffs(path):
         return f["coeffs"][...]
 
 
+# --------------------------------------------------------------------------- data versus prediction
+
+class Predictor:
+    """Forward projections of saved reconstructions. The operator is rebuilt only when sigma
+    changes, from the basis orientations stored in the reconstruction file."""
+
+    def __init__(self, problem, max_gb=1.0):
+        self.problem = problem
+        self.max_gb = max_gb
+        self.op, self.sigma_deg = None, None
+
+    def _operator(self, sigma_deg, grid_mats):
+        if self.op is not None and sigma_deg == self.sigma_deg:
+            return self.op
+        self.free()
+        grid = Grid.from_rotation_matrices(grid_mats, np.deg2rad(sigma_deg))
+        self.op = SinglePhaseForwardOperator(cfg=self.problem["cfg"], material=self.problem["material"], grid=grid,
+                                             max_gb=self.max_gb, normalized=True)
+        self.sigma_deg = sigma_deg
+        return self.op
+
+    def predict(self, h5):
+        """Predicted data (N_Omega, My, N_eta * N_theta) of a reconstruction file."""
+        with h5py.File(h5, "r") as f:
+            sigma_deg = float(f.attrs["sigma_deg"])
+            grid_mats = f["grid_mats"][...]
+            coeffs = f["coeffs"][...]
+        op = self._operator(sigma_deg, grid_mats)
+        x = clarray.to_device(op.queue, np.asfortranarray(coeffs[::-1], dtype=np.float32))  # back to (Nx, Ny, K)
+        y = op.direct(x)
+        out = y.get()
+        del x, y
+        return out
+
+    def free(self):
+        if self.op is not None:
+            self.op.free_memory()
+            self.op, self.sigma_deg = None, None
+
+
+def detector_slices(arr, omega_index, translation_index, n_eta):
+    """Ring x eta images (N_eta, N_theta) of data shaped (N_Omega, My, N_eta * N_theta): the single
+    frame at (omega_index, translation_index), and the sum over all translations at omega_index."""
+    return {"frame": arr[omega_index, translation_index].reshape(n_eta, -1),
+            "summed": arr[omega_index].sum(axis=0, dtype=np.float64).reshape(n_eta, -1)}
+
+
+def prediction_slices(files, sample, omega_index, translation_index, cache_dir):
+    """
+    Data and predictions of every reconstruction in `files` (label -> h5) as ring x eta images:
+    a single detector frame and all translations summed, at one rotation.
+
+    Returns (data, predictions): data = {"frame", "summed", "eta_weight"} (eta_weight: the data
+    weight of every eta bin), predictions = label -> {"frame", "summed"}. Everything is cached in
+    cache_dir; the data are loaded and the GPU used only for what is not cached yet.
+    """
+    tag = f"o{omega_index}_t{translation_index}"
+    data_cache = os.path.join(cache_dir, f"data_{tag}.npz")
+    data_stamp = f"{output_path(sample)}:{os.path.getmtime(output_path(sample) + '.bin')}"
+    predictions, todo = {}, []
+    for label, h5 in files.items():
+        cache = os.path.join(cache_dir, f"prediction_{os.path.splitext(os.path.basename(h5))[0]}_{tag}.npz")
+        stamp = f"{os.path.abspath(h5)}:{os.path.getmtime(h5)}"
+        if os.path.exists(cache) and str(np.load(cache)["stamp"]) == stamp:
+            c = np.load(cache)
+            predictions[label] = {"frame": c["frame"], "summed": c["summed"]}
+        else:
+            todo.append((label, h5, cache, stamp))
+
+    have_data = os.path.exists(data_cache) and str(np.load(data_cache)["stamp"]) == data_stamp
+    if todo or not have_data:
+        problem = load_problem(sample)
+        n_eta = problem["cfg"]["N_eta"]
+        d = detector_slices(problem["data"], omega_index, translation_index, n_eta)
+        eta_weight = problem["weights"][0, 0].reshape(n_eta, -1)[:, 0]
+        np.savez(data_cache, frame=d["frame"], summed=d["summed"], eta_weight=eta_weight, stamp=data_stamp)
+        if todo:
+            predictor = Predictor(problem)
+            for label, h5, cache, stamp in todo:
+                t0 = time.perf_counter()
+                p = detector_slices(predictor.predict(h5), omega_index, translation_index, n_eta)
+                np.savez(cache, frame=p["frame"], summed=p["summed"], stamp=stamp)
+                predictions[label] = p
+                print(f"  {label}: predicted in {time.perf_counter() - t0:.0f} s")
+            predictor.free()
+        del problem
+    c = np.load(data_cache)
+    data = {"frame": c["frame"], "summed": c["summed"], "eta_weight": c["eta_weight"]}
+    return data, {label: predictions[label] for label in files}
+
+
 # --------------------------------------------------------------------------- evaluation
 
 def display_grid(sample, upsample):
