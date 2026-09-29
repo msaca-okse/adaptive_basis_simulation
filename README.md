@@ -24,6 +24,9 @@ checked in the notebooks themselves.
    the adaptive basis, `adaptive_basis/<dataset>/basis.npy`.
 3. `integration/<dataset>`: azimuthal integration of every frame over the selected powder rings.
 4. `texture_tomography/<dataset>`: the texture tomography reconstruction with the adaptive basis.
+5. `visualization/<dataset>`: the figure panels of the article.
+6. `stability/domains_mosaicity_10p0deg`: stability of the adaptive-basis reconstruction with respect to the
+   number of FISTA iterations (`01_iterations.ipynb`) and the kernel width sigma (`02_sigma.ipynb`).
 
 ## Installation
 
@@ -76,7 +79,7 @@ first six notebooks can be skipped. Segmentation, point-by-point indexing and in
 cores; they were run on a cluster node with 32 cores.
 
 `simtools/` holds the code shared by the notebooks (reading the sparse scans, segmentation,
-point-by-point helpers), and `integration/frame_loader.py` holds the reader used by the integration.
+point-by-point helpers, figure maps, the stability sweeps), and `integration/frame_loader.py` holds the reader used by the integration.
 
 ## Citation
 
