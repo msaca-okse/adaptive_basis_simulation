@@ -1,16 +1,18 @@
-# Python dependencies for adaptive_basis_simulations
+# Python dependencies of the notebooks in this repository.
 #
-# Note: diffractom is not available on pip or conda for this repo.
-# Install it separately from the Zenodo release, https://doi.org/10.5281/zenodo.20431767, before running the notebooks here.
+# diffractom (the texture tomography library) is not on PyPI or conda-forge; install it first,
+# following https://github.com/msaca-okse/diffractom (release: https://doi.org/10.5281/zenodo.20431767).
 
 dill
 h5py
 hdf5plugin
 ImageD11
 matplotlib
+matplotlib-scalebar
 numba
 numpy
 orix
+pandas
 pyFAI
 pyopencl
 scikit-image

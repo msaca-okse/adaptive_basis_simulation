@@ -72,7 +72,7 @@ class SparseScan:
 
     def frame(self, i):
         a, b = self.bounds[i], self.bounds[i + 1]
-        # coo_matrix sums duplicate entries, same as textom.sparse.densify
+        # duplicate (row, col) entries are summed
         return coo_matrix(
             (self.intensity[a:b], (self.row[a:b], self.col[a:b])), shape=self.shape
         ).toarray()

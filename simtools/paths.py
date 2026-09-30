@@ -46,7 +46,8 @@ def basis_path(sample):
 
 
 def integrated_path(sample):
-    """Integrated data, without suffix (see integration/integrated_data.py)."""
+    """Base name (without suffix) of the integrated data; integration/frame_loader.py
+    appends the suffix of the run (see integration/integrated_data.py for the format)."""
     return os.path.join(process_dir(sample), sample + "_integrated")
 
 

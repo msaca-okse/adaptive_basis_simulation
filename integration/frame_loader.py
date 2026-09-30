@@ -11,18 +11,13 @@ from simtools import io, paths  # noqa: E402
 
 PONI_PATH = paths.PONI_PATH
 PARAMETERS_AL = paths.PARFILE
-MASKFILE = None  # simulated detector: no bad pixels, no gaps
-
-# Threshold (in dty units, um) used to check that a translation has a single dty value.
-DTY_STEP_TOL = 1e-6
 
 # The simulation (xrd_simulator, polarization=True) used a linearly polarized beam with
 # polarization vector = lab y = the frames' column axis = pyFAI's chi = 0 direction, i.e.
 # horizontal. pyFAI integrate2d convention: +1 horizontal, -1 vertical, 0 circular, None = off.
 POLARIZATION_FACTOR = 1.0
 
-# Output of the polarization-corrected integration, kept separate from
-# paths.integrated_path(sample) (the uncorrected run) so the two can be compared.
+# Suffix of the integrated data (polarization corrected), appended to paths.integrated_path(sample).
 OUTPUT_SUFFIX = "_polcorr"
 
 
@@ -78,9 +73,8 @@ class SimulatedScanFile:
 
 def read_frame_batch(path, start, stop):
     """
-    Standalone module-level function so it can be safely pickled/imported by
-    worker processes. Opens its own file handle and returns dense frames
-    start..stop of the translation stored in path.
+    Dense frames start..stop of the translation stored in path. A module-level function,
+    so that worker processes can import it; it opens its own file handle.
     """
     with io.SparseScan(path) as scan:
         return np.array([scan.frame(i) for i in range(start, stop)], dtype=np.float32)
@@ -192,11 +186,3 @@ class SimulatedDataset:
     def poni_path(self):
         return PONI_PATH
 
-
-import matplotlib.pyplot as plt
-def dark(fontsize=16):
-    plt.style.use("dark_background")
-    ticksize = fontsize
-    plt.rcParams["font.size"] = fontsize
-    plt.rcParams["xtick.labelsize"] = ticksize
-    plt.rcParams["ytick.labelsize"] = ticksize

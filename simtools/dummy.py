@@ -31,10 +31,9 @@ def add_pbp_columns(colf, dty_precision=7):
 
 
 class dset(object):
-    """This is a dummy wrapper for the dataset object in ImageD11.sinograms.dataset
-    allowing the use of the same functions in the ImageD11.sinograms.point_by_point module
-    without having to setup h5 file paths and other things. This is a hack for running PBP
-    when we only have a merged peak file.
+    """Minimal stand-in for ImageD11.sinograms.dataset.DataSet, providing what the
+    point-by-point indexing and refinement (ImageD11.sinograms.point_by_point) read from a
+    dataset, for data that exist only as one merged peak file.
 
     Bins are guessed from the peaks, so ny counts the translations that have
     peaks (the two outermost translations on each side of the simulated scans are empty).
@@ -55,12 +54,12 @@ class dset(object):
         self.sx_grid = sx.reshape(ny, ny)
         self.sy_grid = sy.reshape(ny, ny)
 
-    def update_colfile_pars(self, cf, phase_name=None):  # stolen from ImageD11.sinograms.dataset
+    def update_colfile_pars(self, cf, phase_name=None):  # as in ImageD11.sinograms.dataset
         """Load parameters and update geometry for colfile"""
         cf.parameters.loadparameters(self.parfile, phase_name=phase_name)
         cf.updateGeometry()
 
-    def guessbins(self):  # stolen from ImageD11.sinograms.dataset
+    def guessbins(self):  # as in ImageD11.sinograms.dataset
         ny, nomega = self.shape
         self.omin = self.omega.min()
         self.omax = self.omega.max()

@@ -8,14 +8,14 @@ class IntegratedData:
     Loader for the output of the ring integration: a .json file with all
     parameters and a .bin file holding the memory-mapped intensity array.
 
-        data = IntegratedData("/path/to/scan-0048-0058_integrated")   # no suffix
+        data = IntegratedData("processed/domains_mosaicity_1p0deg/domains_mosaicity_1p0deg_integrated_polcorr")  # no suffix
         data.I            # np.memmap, shape (n_translations, n_omega, n_eta, n_rings)
         data.q_nm         # (n_rings,) ring centre positions
         data.translations # (n_translations,) dty motor positions
         data.omega_deg    # (n_omega,) shared rotation sequence
         data.eta_deg      # (n_eta,) azimuthal bin centres (see note in the class)
         data.corrections  # dict of applied intensity corrections, {} if not recorded
-        data.polarization_corrected  # True / False / None (None = json predates the record)
+        data.polarization_corrected  # True / False / None (None: not recorded in the json)
 
     The array is opened read-only and lazily -- nothing is loaded into memory
     until you slice it.
@@ -80,10 +80,7 @@ class IntegratedData:
         if "eta_deg" not in rings or "eta_range_deg" not in rings:
             raise KeyError(
                 f"{self.json_path} has no 'eta_deg' / 'eta_range_deg' in its "
-                "'rings' section (written by an older version of the parameter "
-                "cell). If that run used pyFAI's default azimuth range, you can "
-                "patch the json rather than re-integrating -- see the notes on "
-                "patching an existing json."
+                "'rings' section; the integration notebook writes both."
             )
         self.eta_range_deg = tuple(rings["eta_range_deg"])
         self.eta_deg = np.array(rings["eta_deg"])
@@ -97,8 +94,8 @@ class IntegratedData:
         self.wavelength_A = p["geometry"]["wavelength_A"]
         self.material = p["material"]
 
-        # intensity corrections and integration settings; absent in jsons written
-        # before they were recorded, which means "unknown", not "not applied"
+        # intensity corrections and integration settings; if absent from the json,
+        # the corrections are unknown (not "not applied")
         self.corrections = p.get("corrections", {})
         self.integration = p.get("integration", {})
         pol = self.corrections.get("polarization")
@@ -134,7 +131,7 @@ class IntegratedData:
                 extra = {k: v for k, v in c.items() if k not in ("applied", "note")}
                 lines.append(f"    {name:12s} applied={c.get('applied')}  {extra if extra else c.get('note', '')}")
         else:
-            lines.append("  corrections: not recorded (json predates it) -- polarization_corrected=None (unknown)")
+            lines.append("  corrections: not recorded in the json -- polarization_corrected=None (unknown)")
         if self.integration:
             lines.append(f"  integration: {self.integration}")
         else:

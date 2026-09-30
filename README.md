@@ -23,7 +23,8 @@ checked in the notebooks themselves.
 2. `adaptive_basis/<dataset>/indexing`: point-by-point indexing and refinement with ImageD11. The last notebook builds
    the adaptive basis, `adaptive_basis/<dataset>/basis.npy`.
 3. `integration/<dataset>`: azimuthal integration of every frame over the selected powder rings.
-4. `texture_tomography/<dataset>`: the texture tomography reconstruction with the adaptive basis.
+4. `texture_tomography/<dataset>`: the texture tomography reconstructions, with the adaptive basis
+   (`textomo_adaptive.ipynb`) and, for comparison, with a uniform orientation grid (`textomo_uniform.ipynb`).
 5. `visualization/<dataset>`: the figure panels of the article.
 6. `stability/domains_mosaicity_10p0deg`: stability of the adaptive-basis reconstruction with respect to the
    number of FISTA iterations (`01_iterations.ipynb`) and the kernel width sigma (`02_sigma.ipynb`).
@@ -72,17 +73,18 @@ adaptive_basis/<dataset>/indexing/02_pbp_index.ipynb
 adaptive_basis/<dataset>/indexing/03_refine.ipynb
 integration/<dataset>/01_inspect_integrate.ipynb
 texture_tomography/<dataset>/textomo_adaptive.ipynb
+texture_tomography/<dataset>/textomo_uniform.ipynb
+visualization/<dataset>/figure_panels.ipynb
 ```
+
+and, for the 10 degree dataset, the stability sweeps in `stability/domains_mosaicity_10p0deg/`
+(they need the integration of that dataset).
 
 The adaptive bases used in the article are included (`adaptive_basis/<dataset>/basis.npy`), so the
 first six notebooks can be skipped. Segmentation, point-by-point indexing and integration use many CPU
 cores; they were run on a cluster node with 32 cores.
 
 `simtools/` holds the code shared by the notebooks (reading the sparse scans, segmentation,
-point-by-point helpers, figure maps, the stability sweeps), and `integration/frame_loader.py` holds the reader used by the integration.
+point-by-point helpers, figure maps, the stability sweeps), and `integration/frame_loader.py` holds the
+reader used by the integration.
 
-## Citation
-
-If you use this repository, please also cite the underlying software it builds on:
-
-Carøe, Martin Sæbye (2026). *diffractom*. Zenodo. https://doi.org/10.5281/zenodo.20431767
