@@ -29,6 +29,7 @@ from . import io
 from .orientations import cubic_symmetry_operators
 
 DPI = 300
+SCALEBAR_X = 0.18  # left end of the scale bar, as a fraction of the map width (clear of the zoom lines)
 
 # boundary colours
 C_REC_MAIN = np.array([0.72, 0.11, 0.11])   # dark crimson
@@ -260,6 +261,7 @@ def _save_image(image, path, pixel_um, scalebar_um, figsize=4, box=None):
                                    rows.stop - rows.start, fill=False, edgecolor="black", linewidth=1.5))
     if scalebar_um:
         ax.add_artist(ScaleBar(pixel_um, "um", fixed_value=scalebar_um, location="lower left",
+                               bbox_to_anchor=(SCALEBAR_X, 0), bbox_transform=ax.transAxes,
                                frameon=False, color="0.35", font_properties={"size": 12}))
     fig.savefig(path, dpi=DPI, bbox_inches="tight", pad_inches=0, transparent=True)
     plt.close(fig)
