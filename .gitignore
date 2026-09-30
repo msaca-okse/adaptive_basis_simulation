@@ -50,3 +50,5 @@ CLAUDE.md
 jobscripts/
 
 tmp/
+# Figure assembly (local tool)
+visualization/assemble_figure.py
