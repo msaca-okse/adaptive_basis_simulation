@@ -14,12 +14,11 @@ import time
 import h5py
 import numpy as np
 import pandas as pd
-import pyopencl.array as clarray
 from scipy.ndimage import distance_transform_edt
 from scipy.spatial.transform import Rotation as R
 
-from diffractom import FISTAHuber, Grid, Material, SinglePhaseForwardOperator
-from diffractom.operators.single_phase_forward_operator import estimate_L_power, group_reflections_into_rings
+from diffractom import FISTAHuber, Grid, Material, SinglePhaseForwardOperator, estimate_L_power_streamed
+from diffractom.operators.single_phase_forward_operator import group_reflections_into_rings
 from integration.frame_loader import output_path
 from integration.integrated_data import IntegratedData
 
@@ -69,8 +68,9 @@ def load_problem(sample):
 
 
 class Reconstructor:
-    """Forward operator for one kernel width sigma, with the data and weights on the GPU;
-    `run(niter)` gives an unregularised nonnegative FISTA-Huber reconstruction from zero."""
+    """Forward operator for one kernel width sigma; `run(niter)` gives an unregularised
+    nonnegative FISTA-Huber reconstruction from zero, with the coefficients in host memory
+    (streamed through the GPU)."""
 
     def __init__(self, problem, sigma_deg, max_gb=1.0):
         self.sigma_deg = float(sigma_deg)
@@ -78,28 +78,26 @@ class Reconstructor:
         self.grid_mats = R.concatenate(grid.rotations_at_level(0)).as_matrix()
         self.K = len(self.grid_mats)
         self.op = SinglePhaseForwardOperator(cfg=problem["cfg"], material=problem["material"], grid=grid,
-                                             max_gb=max_gb, normalized=True)
-        q = self.op.queue
+                                             max_gb=max_gb, normalized=True, reserve_coefficient_arrays=0)
         self.data = problem["data"]
+        self.weights = problem["weights"]
         self.w_seg = problem["weights"].ravel()  # (N_eta * N_theta,), broadcast over (omega, translation)
-        self.y = clarray.to_device(q, self.data)
-        self.w = clarray.to_device(q, problem["weights"])
         self.data_norm = float(np.sqrt(np.sum((self.data * self.w_seg) ** 2, dtype=np.float64)))
-        self.L = 1.1 * estimate_L_power(self.op, niter=6, seed=0, eps=1e-30, verbose=0)
+        self.L = 1.1 * estimate_L_power_streamed(self.op, niter=6, seed=0, verbose=0)
 
     def run(self, niter, huber_delta=100.0):
         """Returns coeffs (Ny, Nx, K) flipped to the ground-truth convention (as the TT
         notebooks save them), the objective per iteration, the relative weighted residual
         ||w (A x - y)|| / ||w y|| of the result, and the run time."""
         op = self.op
-        x = clarray.zeros(op.queue, (op.Nx, op.Ny, self.K), np.float32, order="F")
+        x = np.zeros(op.coeff_shape, np.float32)  # (K, Ny, Nx)
         solver = FISTAHuber(op, prox_kind="nonneg", L=self.L, huber_delta=huber_delta)
         t0 = time.perf_counter()
-        solver.run(x, self.y, niter=int(niter), weights=self.w, verbose=0)
+        x = solver.run(x, self.data, niter=int(niter), weights=self.weights, verbose=0)
         seconds = time.perf_counter() - t0
-        r = (op.direct(x).get() - self.data) * self.w_seg
+        r = (op.direct(x) - self.data) * self.w_seg
         residual = float(np.sqrt(np.sum(r ** 2, dtype=np.float64))) / self.data_norm
-        coeffs = x.get()[::-1].copy()
+        coeffs = np.ascontiguousarray(x.transpose(2, 1, 0)[::-1])
         objective = np.array([s["f"] for s in solver.iter_stats])
         del x, r
         return coeffs, objective, residual, seconds
@@ -149,7 +147,7 @@ class Predictor:
         self.free()
         grid = Grid.from_rotation_matrices(grid_mats, np.deg2rad(sigma_deg))
         self.op = SinglePhaseForwardOperator(cfg=self.problem["cfg"], material=self.problem["material"], grid=grid,
-                                             max_gb=self.max_gb, normalized=True)
+                                             max_gb=self.max_gb, normalized=True, reserve_coefficient_arrays=0)
         self.sigma_deg = sigma_deg
         return self.op
 
@@ -160,11 +158,8 @@ class Predictor:
             grid_mats = f["grid_mats"][...]
             coeffs = f["coeffs"][...]
         op = self._operator(sigma_deg, grid_mats)
-        x = clarray.to_device(op.queue, np.asfortranarray(coeffs[::-1], dtype=np.float32))  # back to (Nx, Ny, K)
-        y = op.direct(x)
-        out = y.get()
-        del x, y
-        return out
+        x = np.ascontiguousarray(coeffs[::-1].transpose(2, 1, 0), dtype=np.float32)  # back to (K, Ny, Nx)
+        return op.direct(x)
 
     def free(self):
         if self.op is not None:
