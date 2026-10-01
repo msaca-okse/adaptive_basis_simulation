@@ -37,9 +37,9 @@ def load_problem(sample):
     N_Omega, My, N_eta, N_theta = arr.shape
     arr = arr / arr.sum(axis=(0, 1, 2), keepdims=True) * arr.sum()  # equal total intensity per ring
 
-    weights = np.ones_like(arr, dtype=np.float32)
-    weights[:, :, 40:50, :] = 0    # eta bins along the rotation axis
-    weights[:, :, 130:140, :] = 0
+    weights = np.ones((N_eta, N_theta), dtype=np.float32)  # one weight per (eta bin, ring)
+    weights[40:50, :] = 0    # eta bins along the rotation axis
+    weights[130:140, :] = 0
 
     cfg = {
         "energy": 12.398 / data.wavelength_A, "Nx": 99, "Ny": 99, "My": My, "N_Omega": N_Omega, "N_eta": N_eta,
@@ -61,7 +61,7 @@ def load_problem(sample):
     return {
         "sample": sample,
         "data": arr.reshape(N_Omega, My, N_eta * N_theta).astype(np.float32),
-        "weights": weights.reshape(N_Omega, My, N_eta * N_theta),
+        "weights": weights,
         "cfg": cfg,
         "material": material,
         "basis": np.load(paths.basis_path(sample)),
@@ -80,10 +80,11 @@ class Reconstructor:
         self.op = SinglePhaseForwardOperator(cfg=problem["cfg"], material=problem["material"], grid=grid,
                                              max_gb=max_gb, normalized=True)
         q = self.op.queue
-        self.y = clarray.to_device(q, problem["data"])
+        self.data = problem["data"]
+        self.w_seg = problem["weights"].ravel()  # (N_eta * N_theta,), broadcast over (omega, translation)
+        self.y = clarray.to_device(q, self.data)
         self.w = clarray.to_device(q, problem["weights"])
-        wy = self.y * self.w
-        self.data_norm = float(np.sqrt(clarray.vdot(wy, wy).get().real))
+        self.data_norm = float(np.sqrt(np.sum((self.data * self.w_seg) ** 2, dtype=np.float64)))
         self.L = 1.1 * estimate_L_power(self.op, niter=6, seed=0, eps=1e-30, verbose=0)
 
     def run(self, niter, huber_delta=100.0):
@@ -96,8 +97,8 @@ class Reconstructor:
         t0 = time.perf_counter()
         solver.run(x, self.y, niter=int(niter), weights=self.w, verbose=0)
         seconds = time.perf_counter() - t0
-        r = (op.direct(x) - self.y) * self.w
-        residual = float(np.sqrt(clarray.vdot(r, r).get().real)) / self.data_norm
+        r = (op.direct(x).get() - self.data) * self.w_seg
+        residual = float(np.sqrt(np.sum(r ** 2, dtype=np.float64))) / self.data_norm
         coeffs = x.get()[::-1].copy()
         objective = np.array([s["f"] for s in solver.iter_stats])
         del x, r
@@ -205,7 +206,7 @@ def prediction_slices(files, sample, omega_index, translation_index, cache_dir):
         problem = load_problem(sample)
         n_eta = problem["cfg"]["N_eta"]
         d = detector_slices(problem["data"], omega_index, translation_index, n_eta)
-        eta_weight = problem["weights"][0, 0].reshape(n_eta, -1)[:, 0]
+        eta_weight = problem["weights"][:, 0]
         np.savez(data_cache, frame=d["frame"], summed=d["summed"], eta_weight=eta_weight, stamp=data_stamp)
         if todo:
             predictor = Predictor(problem)
