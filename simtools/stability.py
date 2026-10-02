@@ -86,9 +86,9 @@ class Reconstructor:
         self.L = 1.1 * estimate_L_power_streamed(self.op, niter=6, seed=0, verbose=0)
 
     def run(self, niter, huber_delta=100.0):
-        """Returns coeffs (Ny, Nx, K) flipped to the ground-truth convention (as the TT
-        notebooks save them), the objective per iteration, the relative weighted residual
-        ||w (A x - y)|| / ||w y|| of the result, and the run time."""
+        """Returns the coefficients (K, Ny, Nx) (as the TT notebooks save them), the objective per
+        iteration, the relative weighted residual ||w (A x - y)|| / ||w y|| of the result, and the
+        run time."""
         op = self.op
         x = np.zeros(op.coeff_shape, np.float32)  # (K, Ny, Nx)
         solver = FISTAHuber(op, prox_kind="nonneg", L=self.L, huber_delta=huber_delta)
@@ -97,10 +97,9 @@ class Reconstructor:
         seconds = time.perf_counter() - t0
         r = (op.direct(x) - self.data) * self.w_seg
         residual = float(np.sqrt(np.sum(r ** 2, dtype=np.float64))) / self.data_norm
-        coeffs = np.ascontiguousarray(x.transpose(2, 1, 0)[::-1])
         objective = np.array([s["f"] for s in solver.iter_stats])
-        del x, r
-        return coeffs, objective, residual, seconds
+        del r
+        return x, objective, residual, seconds
 
     def free(self):
         self.op.free_memory()
@@ -112,7 +111,7 @@ def save_reconstruction(path, coeffs, grid_mats, objective, **attrs):
     with h5py.File(path, "w") as f:
         f.create_dataset("grid_mats", data=grid_mats, compression="gzip")
         ds = f.create_dataset("coeffs", data=coeffs, compression="gzip")
-        ds.attrs["axes"] = "(Ny, Nx, K)"
+        ds.attrs["axes"] = "(K, Ny, Nx)"
         f.create_dataset("objective", data=objective)
         f.attrs["grid"] = "adaptive"
         f.attrs["K"] = len(grid_mats)
@@ -156,10 +155,8 @@ class Predictor:
         with h5py.File(h5, "r") as f:
             sigma_deg = float(f.attrs["sigma_deg"])
             grid_mats = f["grid_mats"][...]
-            coeffs = f["coeffs"][...]
-        op = self._operator(sigma_deg, grid_mats)
-        x = np.ascontiguousarray(coeffs[::-1].transpose(2, 1, 0), dtype=np.float32)  # back to (K, Ny, Nx)
-        return op.direct(x)
+            x = f["coeffs"][...]  # (K, Ny, Nx)
+        return self._operator(sigma_deg, grid_mats).direct(x)
 
     def free(self):
         if self.op is not None:

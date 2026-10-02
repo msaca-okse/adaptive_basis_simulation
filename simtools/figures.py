@@ -82,33 +82,47 @@ def upsample(ori, valid, factor):
     return up, up_valid
 
 
+def coefficient_maps(coeffs):
+    """
+    Per-pixel view of reconstruction coefficients, in the orientation of the ground-truth and
+    pbp maps.
+
+    coeffs: (K, Ny, Nx), as diffractom returns them and the TT notebooks save them (coeffs[k] is
+    the image of orientation k on the reconstruction grid, rows y, columns x). Returns an
+    (Nx, Ny, K) view: axis 0 runs along the sample x of the maps (the grid columns, reversed),
+    axis 1 along the sample y (the grid rows).
+    """
+    return np.asarray(coeffs).transpose(2, 1, 0)[::-1]
+
+
 def weighted_medoid(coeffs, grid_mats, valid, top_k=24):
     """
     Per pixel, the orientation among the top_k largest coefficients that minimises the
     coefficient-weighted sum of misorientations to the others (cubic symmetry).
-    coeffs: (Ny, Nx, K); returns (Ny, Nx, 3, 3), NaN where not valid or empty.
+    coeffs: per-pixel coefficients (coefficient_maps), valid: a mask of the same two leading axes;
+    returns the orientation per pixel, (..., 3, 3), NaN where not valid or empty.
     """
-    Ny, Nx, K = coeffs.shape
+    N0, N1, K = coeffs.shape
     sym = cubic_symmetry_operators()
-    out = np.full((Ny, Nx, 3, 3), np.nan)
+    out = np.full((N0, N1, 3, 3), np.nan)
     t0 = time.time()
-    for iy in range(Ny):
-        for ix in range(Nx):
-            if not valid[iy, ix]:
+    for i0 in range(N0):
+        for i1 in range(N1):
+            if not valid[i0, i1]:
                 continue
-            w = coeffs[iy, ix]
+            w = coeffs[i0, i1]
             if w.max() <= 0:
                 continue
             top = np.argpartition(w, -top_k)[-top_k:] if K > top_k else np.arange(K)
             top = top[w[top] > 0]
             if len(top) <= 1:
-                out[iy, ix] = grid_mats[np.argmax(w)]
+                out[i0, i1] = grid_mats[np.argmax(w)]
                 continue
             mats = grid_mats[top]
             equiv = np.einsum("kij,sjl->ksil", mats, sym)             # (n, 24, 3, 3)
             traces = np.einsum("iab,jsab->ijs", mats, equiv)
             angles = np.arccos(np.clip((traces - 1.0) / 2.0, -1.0, 1.0)).min(axis=-1)
-            out[iy, ix] = mats[np.argmin(angles @ w[top])]
+            out[i0, i1] = mats[np.argmin(angles @ w[top])]
     print(f"  weighted medoid of {int(valid.sum())} pixels in {time.time() - t0:.0f} s")
     return out
 
@@ -125,8 +139,8 @@ def load_tt_medoid(reconstruction_h5, valid, cache, top_k=24):
             return c["medoid"]
     with h5py.File(reconstruction_h5, "r") as f:
         grid_mats = f["grid_mats"][...]
-        coeffs = f["coeffs"][...]
-    medoid = weighted_medoid(coeffs, grid_mats, valid, top_k=top_k)
+        coeffs = f["coeffs"][...]  # (K, Ny, Nx)
+    medoid = weighted_medoid(coefficient_maps(coeffs), grid_mats, valid, top_k=top_k)
     np.savez(cache, medoid=medoid, stamp=stamp)
     return medoid
 
