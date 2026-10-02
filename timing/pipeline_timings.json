@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-02",
+  "machine": {
+    "host": "n-62-18-4",
+    "gpu": "NVIDIA A40",
+    "cpu": "Intel(R) Xeon(R) Gold 6326 CPU @ 2.90GHz",
+    "cores": 16,
+    "job": "29544027"
+  },
+  "workdir": "/dtu-compute/msaca/abs_timing_run2",
+  "runs": [
+    {
+      "sample": "domains_mosaicity_1p0deg",
+      "pipeline": "adaptive",
+      "stage": "Peak segmentation",
+      "notebooks": {
+        "adaptive_basis/domains_mosaicity_1p0deg/segment_peaks/02_segment.ipynb": 208.58485193899833
+      },
+      "seconds": 208.58485193899833
+    },
+    {
+      "sample": "domains_mosaicity_1p0deg",
+      "pipeline": "adaptive",
+      "stage": "Peak indexing",
+      "notebooks": {
+        "adaptive_basis/domains_mosaicity_1p0deg/indexing/02_pbp_index.ipynb": 49.57521193102002,
+        "adaptive_basis/domains_mosaicity_1p0deg/indexing/03_refine.ipynb": 169.5280658369884
+      },
+      "seconds": 219.1032777680084
+    },
+    {
+      "sample": "domains_mosaicity_1p0deg",
+      "pipeline": "adaptive",
+      "stage": "Integration",
+      "notebooks": {
+        "integration/domains_mosaicity_1p0deg/01_inspect_integrate.ipynb": 301.7612818930065
+      },
+      "seconds": 301.7612818930065
+    },
+    {
+      "sample": "domains_mosaicity_1p0deg",
+      "pipeline": "uniform",
+      "stage": "Integration",
+      "notebooks": {
+        "integration/domains_mosaicity_1p0deg/01_inspect_integrate.ipynb": 301.7612818930065
+      },
+      "seconds": 301.7612818930065
+    },
+    {
+      "sample": "domains_mosaicity_1p0deg",
+      "pipeline": "adaptive",
+      "stage": "TT reconstruction",
+      "notebooks": {
+        "texture_tomography/domains_mosaicity_1p0deg/textomo_adaptive.ipynb": 34.63931524299551
+      },
+      "seconds": 34.63931524299551
+    },
+    {
+      "sample": "domains_mosaicity_1p0deg",
+      "pipeline": "uniform",
+      "stage": "TT reconstruction",
+      "notebooks": {
+        "texture_tomography/domains_mosaicity_1p0deg/textomo_uniform.ipynb": 5630.700164465932
+      },
+      "seconds": 5630.700164465932
+    },
+    {
+      "sample": "domains_mosaicity_10p0deg",
+      "pipeline": "adaptive",
+      "stage": "Peak segmentation",
+      "notebooks": {
+        "adaptive_basis/domains_mosaicity_10p0deg/segment_peaks/02_segment.ipynb": 239.67937401495874
+      },
+      "seconds": 239.67937401495874
+    },
+    {
+      "sample": "domains_mosaicity_10p0deg",
+      "pipeline": "adaptive",
+      "stage": "Peak indexing",
+      "notebooks": {
+        "adaptive_basis/domains_mosaicity_10p0deg/indexing/02_pbp_index.ipynb": 291.20293236197904,
+        "adaptive_basis/domains_mosaicity_10p0deg/indexing/03_refine.ipynb": 549.6211163800908
+      },
+      "seconds": 840.8240487420699
+    },
+    {
+      "sample": "domains_mosaicity_10p0deg",
+      "pipeline": "adaptive",
+      "stage": "Integration",
+      "notebooks": {
+        "integration/domains_mosaicity_10p0deg/01_inspect_integrate.ipynb": 329.60757002898026
+      },
+      "seconds": 329.60757002898026
+    },
+    {
+      "sample": "domains_mosaicity_10p0deg",
+      "pipeline": "uniform",
+      "stage": "Integration",
+      "notebooks": {
+        "integration/domains_mosaicity_10p0deg/01_inspect_integrate.ipynb": 329.60757002898026
+      },
+      "seconds": 329.60757002898026
+    },
+    {
+      "sample": "domains_mosaicity_10p0deg",
+      "pipeline": "adaptive",
+      "stage": "TT reconstruction",
+      "notebooks": {
+        "texture_tomography/domains_mosaicity_10p0deg/textomo_adaptive.ipynb": 62.76307021791581
+      },
+      "seconds": 62.76307021791581
+    }
+  ]
+}
