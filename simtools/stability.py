@@ -27,10 +27,11 @@ from . import figures, io, paths
 
 # --------------------------------------------------------------------------- reconstruction
 
-def load_problem(sample):
+def load_problem(sample, integrated=None):
     """Data, weights, geometry, material and adaptive basis of a sample, exactly as in
-    texture_tomography/<sample>/textomo_adaptive.ipynb."""
-    data = IntegratedData(output_path(sample))
+    texture_tomography/<sample>/textomo_adaptive.ipynb. `integrated`: another integration of the
+    sample's frames (path without suffix) in place of the default one."""
+    data = IntegratedData(integrated or output_path(sample))
     assert data.polarization_corrected is True, f"{data.json_path}: the data must be polarization corrected"
     arr = np.ascontiguousarray(np.asarray(data.I, dtype=np.float64).transpose(1, 0, 2, 3))  # (N_Omega, My, N_eta, N_theta)
     N_Omega, My, N_eta, N_theta = arr.shape

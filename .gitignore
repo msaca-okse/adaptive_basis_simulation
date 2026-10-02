@@ -52,3 +52,7 @@ jobscripts/
 tmp/
 # Figure assembly (local tool)
 visualization/assemble_figure.py
+
+# Noise-amplification experiment (not reported)
+stability/domains_mosaicity_10p0deg/03_noise.ipynb
+simtools/noise.py
