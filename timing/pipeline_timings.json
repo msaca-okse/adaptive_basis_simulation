@@ -1,14 +1,26 @@
 {
-  "date": "2026-10-02",
+  "date": "2026-10-03",
   "machine": {
     "host": "n-62-18-4",
     "gpu": "NVIDIA A40",
     "cpu": "Intel(R) Xeon(R) Gold 6326 CPU @ 2.90GHz",
     "cores": 16,
-    "job": "29544027"
+    "job": "29556189"
   },
-  "workdir": "/dtu-compute/msaca/abs_timing_run2",
+  "diffractom": "f58a234 2026-10-03 Merge branch 'streaming-fused': next forward pass inside the adjoint pass (GPU and streamed), fused residual/norm/clip, PF forward skips empty rows",
+  "workdir": "/dtu-compute/msaca/adaptive_basis_simulations",
   "runs": [
+    {
+      "sample": "domains_mosaicity_1p0deg",
+      "pipeline": "pbp",
+      "stage": "Peak segmentation",
+      "notebooks": {
+        "adaptive_basis/domains_mosaicity_1p0deg/segment_peaks/02_segment.ipynb": 208.58485193899833
+      },
+      "seconds": 208.58485193899833,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
+    },
     {
       "sample": "domains_mosaicity_1p0deg",
       "pipeline": "adaptive",
@@ -16,7 +28,21 @@
       "notebooks": {
         "adaptive_basis/domains_mosaicity_1p0deg/segment_peaks/02_segment.ipynb": 208.58485193899833
       },
-      "seconds": 208.58485193899833
+      "seconds": 208.58485193899833,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
+    },
+    {
+      "sample": "domains_mosaicity_1p0deg",
+      "pipeline": "pbp",
+      "stage": "Peak indexing",
+      "notebooks": {
+        "adaptive_basis/domains_mosaicity_1p0deg/indexing/02_pbp_index.ipynb": 49.57521193102002,
+        "adaptive_basis/domains_mosaicity_1p0deg/indexing/03_refine.ipynb": 169.5280658369884
+      },
+      "seconds": 219.1032777680084,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
     },
     {
       "sample": "domains_mosaicity_1p0deg",
@@ -26,7 +52,9 @@
         "adaptive_basis/domains_mosaicity_1p0deg/indexing/02_pbp_index.ipynb": 49.57521193102002,
         "adaptive_basis/domains_mosaicity_1p0deg/indexing/03_refine.ipynb": 169.5280658369884
       },
-      "seconds": 219.1032777680084
+      "seconds": 219.1032777680084,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
     },
     {
       "sample": "domains_mosaicity_1p0deg",
@@ -35,7 +63,9 @@
       "notebooks": {
         "integration/domains_mosaicity_1p0deg/01_inspect_integrate.ipynb": 301.7612818930065
       },
-      "seconds": 301.7612818930065
+      "seconds": 301.7612818930065,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
     },
     {
       "sample": "domains_mosaicity_1p0deg",
@@ -44,25 +74,42 @@
       "notebooks": {
         "integration/domains_mosaicity_1p0deg/01_inspect_integrate.ipynb": 301.7612818930065
       },
-      "seconds": 301.7612818930065
+      "seconds": 301.7612818930065,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
     },
     {
       "sample": "domains_mosaicity_1p0deg",
       "pipeline": "adaptive",
       "stage": "TT reconstruction",
       "notebooks": {
-        "texture_tomography/domains_mosaicity_1p0deg/textomo_adaptive.ipynb": 34.63931524299551
+        "texture_tomography/domains_mosaicity_1p0deg/textomo_adaptive.ipynb": 46.63992766395677
       },
-      "seconds": 34.63931524299551
+      "seconds": 46.63992766395677,
+      "measured": "2026-10-03",
+      "host": "n-62-18-4"
     },
     {
       "sample": "domains_mosaicity_1p0deg",
       "pipeline": "uniform",
       "stage": "TT reconstruction",
       "notebooks": {
-        "texture_tomography/domains_mosaicity_1p0deg/textomo_uniform.ipynb": 5630.700164465932
+        "texture_tomography/domains_mosaicity_1p0deg/textomo_uniform.ipynb": 972.0492967519676
       },
-      "seconds": 5630.700164465932
+      "seconds": 972.0492967519676,
+      "measured": "2026-10-03",
+      "host": "n-62-18-4"
+    },
+    {
+      "sample": "domains_mosaicity_10p0deg",
+      "pipeline": "pbp",
+      "stage": "Peak segmentation",
+      "notebooks": {
+        "adaptive_basis/domains_mosaicity_10p0deg/segment_peaks/02_segment.ipynb": 239.67937401495874
+      },
+      "seconds": 239.67937401495874,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
     },
     {
       "sample": "domains_mosaicity_10p0deg",
@@ -71,7 +118,21 @@
       "notebooks": {
         "adaptive_basis/domains_mosaicity_10p0deg/segment_peaks/02_segment.ipynb": 239.67937401495874
       },
-      "seconds": 239.67937401495874
+      "seconds": 239.67937401495874,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
+    },
+    {
+      "sample": "domains_mosaicity_10p0deg",
+      "pipeline": "pbp",
+      "stage": "Peak indexing",
+      "notebooks": {
+        "adaptive_basis/domains_mosaicity_10p0deg/indexing/02_pbp_index.ipynb": 291.20293236197904,
+        "adaptive_basis/domains_mosaicity_10p0deg/indexing/03_refine.ipynb": 549.6211163800908
+      },
+      "seconds": 840.8240487420699,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
     },
     {
       "sample": "domains_mosaicity_10p0deg",
@@ -81,7 +142,9 @@
         "adaptive_basis/domains_mosaicity_10p0deg/indexing/02_pbp_index.ipynb": 291.20293236197904,
         "adaptive_basis/domains_mosaicity_10p0deg/indexing/03_refine.ipynb": 549.6211163800908
       },
-      "seconds": 840.8240487420699
+      "seconds": 840.8240487420699,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
     },
     {
       "sample": "domains_mosaicity_10p0deg",
@@ -90,7 +153,9 @@
       "notebooks": {
         "integration/domains_mosaicity_10p0deg/01_inspect_integrate.ipynb": 329.60757002898026
       },
-      "seconds": 329.60757002898026
+      "seconds": 329.60757002898026,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
     },
     {
       "sample": "domains_mosaicity_10p0deg",
@@ -99,16 +164,67 @@
       "notebooks": {
         "integration/domains_mosaicity_10p0deg/01_inspect_integrate.ipynb": 329.60757002898026
       },
-      "seconds": 329.60757002898026
+      "seconds": 329.60757002898026,
+      "measured": "2026-10-02",
+      "host": "n-62-18-4"
     },
     {
       "sample": "domains_mosaicity_10p0deg",
       "pipeline": "adaptive",
       "stage": "TT reconstruction",
       "notebooks": {
-        "texture_tomography/domains_mosaicity_10p0deg/textomo_adaptive.ipynb": 62.76307021791581
+        "texture_tomography/domains_mosaicity_10p0deg/textomo_adaptive.ipynb": 62.20858788408805
       },
-      "seconds": 62.76307021791581
+      "seconds": 62.20858788408805,
+      "measured": "2026-10-03",
+      "host": "n-62-18-4"
+    },
+    {
+      "sample": "domains_mosaicity_10p0deg",
+      "pipeline": "uniform",
+      "stage": "TT reconstruction",
+      "notebooks": {
+        "texture_tomography/domains_mosaicity_10p0deg/textomo_uniform.ipynb": 968.6901902829995
+      },
+      "seconds": 968.6901902829995,
+      "measured": "2026-10-03",
+      "host": "n-62-18-4"
     }
-  ]
+  ],
+  "metrics": {
+    "domains_mosaicity_1p0deg": {
+      "pbp": {
+        "median misorientation (deg)": 0.189,
+        "grain boundary deviation, mean (um)": 0.0272,
+        "grain boundary deviation, mean (display pixels)": 1.0669
+      },
+      "tt_uniform": {
+        "median misorientation (deg)": 1.094,
+        "grain boundary deviation, mean (um)": 0.0215,
+        "grain boundary deviation, mean (display pixels)": 0.8447
+      },
+      "tt_adaptive": {
+        "median misorientation (deg)": 0.241,
+        "grain boundary deviation, mean (um)": 0.0182,
+        "grain boundary deviation, mean (display pixels)": 0.7121
+      }
+    },
+    "domains_mosaicity_10p0deg": {
+      "pbp": {
+        "median misorientation (deg)": 0.404,
+        "grain boundary deviation, mean (um)": 0.0502,
+        "grain boundary deviation, mean (display pixels)": 1.9691
+      },
+      "tt_uniform": {
+        "median misorientation (deg)": 1.22,
+        "grain boundary deviation, mean (um)": 0.0182,
+        "grain boundary deviation, mean (display pixels)": 0.7147
+      },
+      "tt_adaptive": {
+        "median misorientation (deg)": 0.346,
+        "grain boundary deviation, mean (um)": 0.0165,
+        "grain boundary deviation, mean (display pixels)": 0.6482
+      }
+    }
+  }
 }
