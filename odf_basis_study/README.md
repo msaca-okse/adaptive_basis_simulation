@@ -20,9 +20,9 @@ accuracy table of `timing/pipeline_timings.md`; sigma 0.4 deg, 200 FISTA iterati
 ODF step: 65 s (1 deg) and 112 s (10 deg) on a V100; segmentation + indexing + refinement took 7.1 and
 18.1 min on an A40.
 
-Al1050 (texture_tomography repository, branch `odf-basis`): relative weighted data residual 0.359 with the
-ODF basis (K 58 304) against 0.394 with the indexed basis (K 48 017) and 0.771 with the uniform grid
-(K 82 198, sigma 2 deg); the ODF and indexed maps agree to a median of 0.52 deg. The sample is 15 %
+Al1050 (texture_tomography repository, branch `odf-basis`): relative weighted data residual 0.356 with the
+ODF basis of its `textomo_odf.ipynb` (K 34 845) against 0.394 with the indexed basis (K 48 017) and 0.771
+with the uniform grid (K 82 198, sigma 2 deg); the ODF and indexed maps agree to a median of 0.56 deg. The sample is 15 %
 deformed, so its ODF is broad: 1.6 million candidate orientations at 0.5 deg.
 
 ## Files
