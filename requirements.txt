@@ -1,7 +1,7 @@
 # Python dependencies of the notebooks in this repository.
 #
 # diffractom (the texture tomography library) is not on PyPI or conda-forge; install it first,
-# following https://github.com/msaca-okse/diffractom (release: https://doi.org/10.5281/zenodo.20431767).
+# following https://github.com/msaca-okse/diffractom (release 0.2.0: https://doi.org/10.5281/zenodo.23185512).
 
 dill
 h5py

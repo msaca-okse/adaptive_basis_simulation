@@ -11,7 +11,7 @@ Jakob Sauer Jørgensen, Nils Axel Henningsson
 
 This code does texture tomography reconstructions with an adaptive orientation basis on two
 simulated scanning 3DXRD datasets of an aluminium sample, using the library *diffractom*
-https://doi.org/10.5281/zenodo.20431767. The two datasets differ in the intra-granular
+(version 0.2.0, https://doi.org/10.5281/zenodo.23185512). The two datasets differ in the intra-granular
 mosaicity of the simulated sample: 1 degree (`domains_mosaicity_1p0deg`) and 10 degrees
 (`domains_mosaicity_10p0deg`). The real (DanMAX) dataset of the article is analysed in a
 companion repository with the same layout.
