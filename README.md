@@ -64,8 +64,19 @@ The integration and the texture tomography run on the GPU through OpenCL.
 
 ## Data
 
-The simulated datasets will be made available on Zenodo; a link will be added here.
-Place them in `data/` so that the layout is
+The simulated datasets are published on Zenodo, under the MIT license:
+*Simulated scanning 3DXRD datasets of an aluminum polycrystal*, https://doi.org/10.5281/zenodo.23064858
+(version v1; https://doi.org/10.5281/zenodo.23064857 always resolves to the latest version).
+Download its six zip files and unpack them into `data/`:
+
+```bash
+mkdir -p data
+for f in samples_and_geometry.zip scans_mosaicity_1p0deg.zip scans_mosaicity_10p0deg_part?of4.zip; do
+    unzip -d data "$f"
+done
+```
+
+This gives the layout
 
 ```
 data/
@@ -107,3 +118,19 @@ cores; they were run on a cluster node with 32 cores.
 point-by-point helpers, figure maps, the stability sweeps), and `integration/frame_loader.py` holds the
 reader used by the integration.
 
+## Citation
+
+If you use this code, please cite the article it accompanies:
+
+> Martin Sæbye Carøe, Mads Allerup Carlsen, Felix Tristan Frankus, Adam André William Cretton,
+> Michela La Bella, Innokentiy Kantor, Mads Ry Vogel Jørgensen, Henning Friis Poulsen,
+> Jakob Sauer Jørgensen, Nils Axel Henningsson. "Bridging powder and multi-crystal diffraction with
+> basis-adaptive texture tomography". In preparation.
+
+The data: https://doi.org/10.5281/zenodo.23064858. The texture tomography library: diffractom v0.2.0,
+https://doi.org/10.5281/zenodo.23185512.
+
+## License
+
+The code in this repository is licensed under the Apache License 2.0 (see `LICENSE`). The simulated
+datasets on Zenodo have their own license (MIT).
