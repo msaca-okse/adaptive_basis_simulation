@@ -46,6 +46,13 @@ checked in the notebooks themselves.
   beyond 200 iterations (0.329 deg at 200, 0.333 deg at 5000), and narrow kernels no longer fail (0.335 deg at
   sigma = 0.03 deg). sigma = 0.01 deg was dropped from the sweep: the quadrature would need thousands of nodes
   per bin.
+* `timing/pipeline_timings.md`: the TT reconstructions timed again with diffractom 0.3.0 on the same machine
+  (NVIDIA A40, host n-62-18-4): TT-Adaptive 1.2 / 1.0 min (was 0.8 / 1.0), TT-Uniform 25.7 / 25.5 min (was
+  16.2 / 16.1) for the 1 / 10 degree samples; the integrated model has twice as many pole-figure non-zeros for
+  the uniform grid. The other stages were not rerun (unchanged code). The table of version 1.0.0 is kept as
+  `timing/pipeline_timings_2026-10-03.md`. The uniform grid is drawn without a seed, so the TT-Uniform accuracy
+  in the timing table (its own run: 1.043 / 1.226 deg) differs from that of the notebooks (1.161 / 1.156 deg).
+
 ## Installation
 
 This code was written for **diffractom version 0.3.0** (https://doi.org/10.5281/zenodo.20431766) and needs
