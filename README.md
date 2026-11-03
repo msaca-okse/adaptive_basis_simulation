@@ -11,7 +11,7 @@ Jakob Sauer Jørgensen, Nils Axel Henningsson
 
 This code does texture tomography reconstructions with an adaptive orientation basis on two
 simulated scanning 3DXRD datasets of an aluminium sample, using the library *diffractom*
-(version 0.3.0, https://doi.org/10.5281/zenodo.20431766). The two datasets differ in the intra-granular
+(version 0.3.0, https://doi.org/10.5281/zenodo.23920227). The two datasets differ in the intra-granular
 mosaicity of the simulated sample: 1 degree (`domains_mosaicity_1p0deg`) and 10 degrees
 (`domains_mosaicity_10p0deg`). The real (DanMAX) dataset of the article is analysed in a
 companion repository with the same layout.
@@ -58,7 +58,7 @@ checked in the notebooks themselves.
 
 ## Installation
 
-This code was written for **diffractom version 0.3.0** (https://doi.org/10.5281/zenodo.20431766) and needs
+This code was written for **diffractom version 0.3.0** (https://doi.org/10.5281/zenodo.23920227) and needs
 exactly that release: later versions of diffractom may change its interface. Install the release from its tag
 (not from the main branch), with the conda environment it ships, which pins the tested versions of its
 dependencies:
@@ -72,7 +72,7 @@ python -m pip install -e .
 cd ..
 ```
 
-The same release can also be downloaded as an archive from Zenodo (the DOI above lists every version). Check the installed
+The same release can also be downloaded as an archive from the Zenodo record above. Check the installed
 version with
 
 ```bash
@@ -155,7 +155,7 @@ If you use this code, please cite the article it accompanies:
 > basis-adaptive texture tomography". In preparation.
 
 The data: https://doi.org/10.5281/zenodo.23064858. The texture tomography library: diffractom v0.3.0,
-https://doi.org/10.5281/zenodo.20431766.
+https://doi.org/10.5281/zenodo.23920227.
 
 ## License
 
