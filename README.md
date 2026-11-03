@@ -11,7 +11,7 @@ Jakob Sauer Jørgensen, Nils Axel Henningsson
 
 This code does texture tomography reconstructions with an adaptive orientation basis on two
 simulated scanning 3DXRD datasets of an aluminium sample, using the library *diffractom*
-(version 0.2.0, https://doi.org/10.5281/zenodo.23185512). The two datasets differ in the intra-granular
+(version 0.3.0, https://doi.org/10.5281/zenodo.20431766). The two datasets differ in the intra-granular
 mosaicity of the simulated sample: 1 degree (`domains_mosaicity_1p0deg`) and 10 degrees
 (`domains_mosaicity_10p0deg`). The real (DanMAX) dataset of the article is analysed in a
 companion repository with the same layout.
@@ -27,17 +27,34 @@ checked in the notebooks themselves.
    (`textomo_adaptive.ipynb`) and, for comparison, with a uniform orientation grid (`textomo_uniform.ipynb`).
 5. `visualization/<dataset>`: the figure panels of the article.
 6. `stability/domains_mosaicity_10p0deg`: stability of the adaptive-basis reconstruction with respect to the
-   number of FISTA iterations (`01_iterations.ipynb`) and the kernel width sigma (`02_sigma.ipynb`).
+   number of FISTA iterations (`01_iterations.ipynb`) and the kernel width sigma (`02_sigma.ipynb`);
+   `04_summary_figure.ipynb` makes the stability figure of the article from both.
+7. `timing/time_pipelines.py`: the wall-clock time of every pipeline (the table of the article),
+   results in `timing/pipeline_timings.md`.
 
+## Changes in version 1.1.0
+
+* diffractom 0.3.0 (was 0.2.0). The pole figures of the basis functions are integrated over each
+  (omega, eta) bin by Gauss-Legendre quadrature with as few nodes as keep an error bound below 5 % of the
+  peak (`quadrature="auto"`; 2 x 4 nodes per bin for the adaptive basis, sigma 0.4 deg, and 1 x 2 for the
+  uniform grid, sigma 1.3 deg) instead of being evaluated at the bin centre; the Gaussians are cut at 4 sigma
+  (was 3); the tomographic projection uses the pixel footprint (trapezoid) kernel.
+* The texture tomography, the figure panels and the stability sweeps were run again with it. Median
+  misorientation to the ground truth, 1 degree sample: TT-Adaptive 0.241 -> 0.216 deg, TT-Uniform
+  1.094 -> 1.161 deg; 10 degree sample: TT-Adaptive 0.346 -> 0.329 deg, TT-Uniform 1.220 -> 1.156 deg (PBP
+  unchanged, 0.189 and 0.404 deg). With the integrated model the adaptive reconstruction no longer gets worse
+  beyond 200 iterations (0.329 deg at 200, 0.333 deg at 5000), and narrow kernels no longer fail (0.335 deg at
+  sigma = 0.03 deg). sigma = 0.01 deg was dropped from the sweep: the quadrature would need thousands of nodes
+  per bin.
 ## Installation
 
-This code was written for **diffractom version 0.2.0** (https://doi.org/10.5281/zenodo.23185512) and needs
+This code was written for **diffractom version 0.3.0** (https://doi.org/10.5281/zenodo.20431766) and needs
 exactly that release: later versions of diffractom may change its interface. Install the release from its tag
 (not from the main branch), with the conda environment it ships, which pins the tested versions of its
 dependencies:
 
 ```bash
-git clone --branch v0.2.0 https://github.com/msaca-okse/diffractom.git
+git clone --branch v0.3.0 https://github.com/msaca-okse/diffractom.git
 cd diffractom
 conda env create -f environment.yml
 conda activate diffractom
@@ -45,11 +62,11 @@ python -m pip install -e .
 cd ..
 ```
 
-The same release can also be downloaded as an archive from the Zenodo record above. Check the installed
+The same release can also be downloaded as an archive from Zenodo (the DOI above lists every version). Check the installed
 version with
 
 ```bash
-python -c "import importlib.metadata as m; print(m.version('diffractom'))"   # 0.2.0
+python -c "import importlib.metadata as m; print(m.version('diffractom'))"   # 0.3.0
 ```
 
 Then, in the same (activated) environment, clone this repository and install the packages its notebooks need:
@@ -127,8 +144,8 @@ If you use this code, please cite the article it accompanies:
 > Jakob Sauer Jørgensen, Nils Axel Henningsson. "Bridging powder and multi-crystal diffraction with
 > basis-adaptive texture tomography". In preparation.
 
-The data: https://doi.org/10.5281/zenodo.23064858. The texture tomography library: diffractom v0.2.0,
-https://doi.org/10.5281/zenodo.23185512.
+The data: https://doi.org/10.5281/zenodo.23064858. The texture tomography library: diffractom v0.3.0,
+https://doi.org/10.5281/zenodo.20431766.
 
 ## License
 
