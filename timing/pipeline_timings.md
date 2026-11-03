@@ -13,15 +13,17 @@ Measured 2026-11-03 with `timing/time_pipelines.py` on NVIDIA A40, 16 cores of I
 
 ## Accuracy of the maps
 
+The uniform grid of the notebooks is drawn with a fixed seed (`np.random.seed(4200)`, K = 100 260). The times above were measured before the seed was added, with an unseeded draw of the same size (K = 100 557 for the 1 degree sample); the accuracy below is that of the seeded run, which made the notebooks of this repository.
+
 From `visualization/<sample>/figure_panels.ipynb` on the maps of this run: the median misorientation to the ground truth over the sample, and the mean distance of the grain boundaries (KAM >= 4 deg) to the nearest ground-truth grain boundary (1 voxel = 4 display pixels).
 
 | Sample | Map | Median misorientation (deg) | Grain-boundary deviation (µm) | (voxels) |
 |---|---|---|---|---|
 | 1.0 deg | pbp | 0.189 | 0.0272 | 0.27 |
-| 1.0 deg | TT-Uniform | 1.043 | 0.0202 | 0.20 |
+| 1.0 deg | TT-Uniform | 1.057 | 0.0201 | 0.20 |
 | 1.0 deg | TT-Adaptive | 0.216 | 0.0169 | 0.17 |
 | 10.0 deg | pbp | 0.404 | 0.0502 | 0.49 |
-| 10.0 deg | TT-Uniform | 1.226 | 0.0179 | 0.18 |
+| 10.0 deg | TT-Uniform | 1.243 | 0.0177 | 0.17 |
 | 10.0 deg | TT-Adaptive | 0.329 | 0.0164 | 0.16 |
 
 Per notebook:

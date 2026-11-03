@@ -1,230 +1,231 @@
 {
-  "date": "2026-11-03",
-  "machine": {
-    "host": "n-62-18-4",
-    "gpu": "NVIDIA A40",
-    "cpu": "Intel(R) Xeon(R) Gold 6326 CPU @ 2.90GHz",
-    "cores": 16,
-    "job": "29877267"
+ "date": "2026-11-03",
+ "machine": {
+  "host": "n-62-18-4",
+  "gpu": "NVIDIA A40",
+  "cpu": "Intel(R) Xeon(R) Gold 6326 CPU @ 2.90GHz",
+  "cores": 16,
+  "job": "29877267"
+ },
+ "diffractom": "v0.3.0 (17a73a9, release-0.3.0)",
+ "workdir": "/dtu-compute/msaca/adaptive_basis_simulations",
+ "runs": [
+  {
+   "sample": "domains_mosaicity_1p0deg",
+   "pipeline": "pbp",
+   "stage": "Peak segmentation",
+   "notebooks": {
+    "adaptive_basis/domains_mosaicity_1p0deg/segment_peaks/02_segment.ipynb": 208.58485193899833
+   },
+   "seconds": 208.58485193899833,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
   },
-  "diffractom": "v0.3.0 (17a73a9, release-0.3.0)",
-  "workdir": "/dtu-compute/msaca/adaptive_basis_simulations",
-  "runs": [
-    {
-      "sample": "domains_mosaicity_1p0deg",
-      "pipeline": "pbp",
-      "stage": "Peak segmentation",
-      "notebooks": {
-        "adaptive_basis/domains_mosaicity_1p0deg/segment_peaks/02_segment.ipynb": 208.58485193899833
-      },
-      "seconds": 208.58485193899833,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_1p0deg",
-      "pipeline": "adaptive",
-      "stage": "Peak segmentation",
-      "notebooks": {
-        "adaptive_basis/domains_mosaicity_1p0deg/segment_peaks/02_segment.ipynb": 208.58485193899833
-      },
-      "seconds": 208.58485193899833,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_1p0deg",
-      "pipeline": "pbp",
-      "stage": "Peak indexing",
-      "notebooks": {
-        "adaptive_basis/domains_mosaicity_1p0deg/indexing/02_pbp_index.ipynb": 49.57521193102002,
-        "adaptive_basis/domains_mosaicity_1p0deg/indexing/03_refine.ipynb": 169.5280658369884
-      },
-      "seconds": 219.1032777680084,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_1p0deg",
-      "pipeline": "adaptive",
-      "stage": "Peak indexing",
-      "notebooks": {
-        "adaptive_basis/domains_mosaicity_1p0deg/indexing/02_pbp_index.ipynb": 49.57521193102002,
-        "adaptive_basis/domains_mosaicity_1p0deg/indexing/03_refine.ipynb": 169.5280658369884
-      },
-      "seconds": 219.1032777680084,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_1p0deg",
-      "pipeline": "adaptive",
-      "stage": "Integration",
-      "notebooks": {
-        "integration/domains_mosaicity_1p0deg/01_inspect_integrate.ipynb": 301.7612818930065
-      },
-      "seconds": 301.7612818930065,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_1p0deg",
-      "pipeline": "uniform",
-      "stage": "Integration",
-      "notebooks": {
-        "integration/domains_mosaicity_1p0deg/01_inspect_integrate.ipynb": 301.7612818930065
-      },
-      "seconds": 301.7612818930065,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_1p0deg",
-      "pipeline": "adaptive",
-      "stage": "TT reconstruction",
-      "notebooks": {
-        "texture_tomography/domains_mosaicity_1p0deg/textomo_adaptive.ipynb": 73.00810815899604
-      },
-      "seconds": 73.00810815899604,
-      "measured": "2026-11-03",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_1p0deg",
-      "pipeline": "uniform",
-      "stage": "TT reconstruction",
-      "notebooks": {
-        "texture_tomography/domains_mosaicity_1p0deg/textomo_uniform.ipynb": 1544.3592320799944
-      },
-      "seconds": 1544.3592320799944,
-      "measured": "2026-11-03",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_10p0deg",
-      "pipeline": "pbp",
-      "stage": "Peak segmentation",
-      "notebooks": {
-        "adaptive_basis/domains_mosaicity_10p0deg/segment_peaks/02_segment.ipynb": 239.67937401495874
-      },
-      "seconds": 239.67937401495874,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_10p0deg",
-      "pipeline": "adaptive",
-      "stage": "Peak segmentation",
-      "notebooks": {
-        "adaptive_basis/domains_mosaicity_10p0deg/segment_peaks/02_segment.ipynb": 239.67937401495874
-      },
-      "seconds": 239.67937401495874,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_10p0deg",
-      "pipeline": "pbp",
-      "stage": "Peak indexing",
-      "notebooks": {
-        "adaptive_basis/domains_mosaicity_10p0deg/indexing/02_pbp_index.ipynb": 291.20293236197904,
-        "adaptive_basis/domains_mosaicity_10p0deg/indexing/03_refine.ipynb": 549.6211163800908
-      },
-      "seconds": 840.8240487420699,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_10p0deg",
-      "pipeline": "adaptive",
-      "stage": "Peak indexing",
-      "notebooks": {
-        "adaptive_basis/domains_mosaicity_10p0deg/indexing/02_pbp_index.ipynb": 291.20293236197904,
-        "adaptive_basis/domains_mosaicity_10p0deg/indexing/03_refine.ipynb": 549.6211163800908
-      },
-      "seconds": 840.8240487420699,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_10p0deg",
-      "pipeline": "adaptive",
-      "stage": "Integration",
-      "notebooks": {
-        "integration/domains_mosaicity_10p0deg/01_inspect_integrate.ipynb": 329.60757002898026
-      },
-      "seconds": 329.60757002898026,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_10p0deg",
-      "pipeline": "uniform",
-      "stage": "Integration",
-      "notebooks": {
-        "integration/domains_mosaicity_10p0deg/01_inspect_integrate.ipynb": 329.60757002898026
-      },
-      "seconds": 329.60757002898026,
-      "measured": "2026-10-02",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_10p0deg",
-      "pipeline": "adaptive",
-      "stage": "TT reconstruction",
-      "notebooks": {
-        "texture_tomography/domains_mosaicity_10p0deg/textomo_adaptive.ipynb": 62.472275655003614
-      },
-      "seconds": 62.472275655003614,
-      "measured": "2026-11-03",
-      "host": "n-62-18-4"
-    },
-    {
-      "sample": "domains_mosaicity_10p0deg",
-      "pipeline": "uniform",
-      "stage": "TT reconstruction",
-      "notebooks": {
-        "texture_tomography/domains_mosaicity_10p0deg/textomo_uniform.ipynb": 1531.4767991450062
-      },
-      "seconds": 1531.4767991450062,
-      "measured": "2026-11-03",
-      "host": "n-62-18-4"
-    }
-  ],
-  "metrics": {
-    "domains_mosaicity_1p0deg": {
-      "pbp": {
-        "median misorientation (deg)": 0.189,
-        "grain boundary deviation, mean (um)": 0.0272,
-        "grain boundary deviation, mean (display pixels)": 1.0669
-      },
-      "tt_uniform": {
-        "median misorientation (deg)": 1.043,
-        "grain boundary deviation, mean (um)": 0.0202,
-        "grain boundary deviation, mean (display pixels)": 0.7905
-      },
-      "tt_adaptive": {
-        "median misorientation (deg)": 0.216,
-        "grain boundary deviation, mean (um)": 0.0169,
-        "grain boundary deviation, mean (display pixels)": 0.6631
-      }
-    },
-    "domains_mosaicity_10p0deg": {
-      "pbp": {
-        "median misorientation (deg)": 0.404,
-        "grain boundary deviation, mean (um)": 0.0502,
-        "grain boundary deviation, mean (display pixels)": 1.9691
-      },
-      "tt_uniform": {
-        "median misorientation (deg)": 1.226,
-        "grain boundary deviation, mean (um)": 0.0179,
-        "grain boundary deviation, mean (display pixels)": 0.7004
-      },
-      "tt_adaptive": {
-        "median misorientation (deg)": 0.329,
-        "grain boundary deviation, mean (um)": 0.0164,
-        "grain boundary deviation, mean (display pixels)": 0.6427
-      }
-    }
+  {
+   "sample": "domains_mosaicity_1p0deg",
+   "pipeline": "adaptive",
+   "stage": "Peak segmentation",
+   "notebooks": {
+    "adaptive_basis/domains_mosaicity_1p0deg/segment_peaks/02_segment.ipynb": 208.58485193899833
+   },
+   "seconds": 208.58485193899833,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_1p0deg",
+   "pipeline": "pbp",
+   "stage": "Peak indexing",
+   "notebooks": {
+    "adaptive_basis/domains_mosaicity_1p0deg/indexing/02_pbp_index.ipynb": 49.57521193102002,
+    "adaptive_basis/domains_mosaicity_1p0deg/indexing/03_refine.ipynb": 169.5280658369884
+   },
+   "seconds": 219.1032777680084,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_1p0deg",
+   "pipeline": "adaptive",
+   "stage": "Peak indexing",
+   "notebooks": {
+    "adaptive_basis/domains_mosaicity_1p0deg/indexing/02_pbp_index.ipynb": 49.57521193102002,
+    "adaptive_basis/domains_mosaicity_1p0deg/indexing/03_refine.ipynb": 169.5280658369884
+   },
+   "seconds": 219.1032777680084,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_1p0deg",
+   "pipeline": "adaptive",
+   "stage": "Integration",
+   "notebooks": {
+    "integration/domains_mosaicity_1p0deg/01_inspect_integrate.ipynb": 301.7612818930065
+   },
+   "seconds": 301.7612818930065,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_1p0deg",
+   "pipeline": "uniform",
+   "stage": "Integration",
+   "notebooks": {
+    "integration/domains_mosaicity_1p0deg/01_inspect_integrate.ipynb": 301.7612818930065
+   },
+   "seconds": 301.7612818930065,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_1p0deg",
+   "pipeline": "adaptive",
+   "stage": "TT reconstruction",
+   "notebooks": {
+    "texture_tomography/domains_mosaicity_1p0deg/textomo_adaptive.ipynb": 73.00810815899604
+   },
+   "seconds": 73.00810815899604,
+   "measured": "2026-11-03",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_1p0deg",
+   "pipeline": "uniform",
+   "stage": "TT reconstruction",
+   "notebooks": {
+    "texture_tomography/domains_mosaicity_1p0deg/textomo_uniform.ipynb": 1544.3592320799944
+   },
+   "seconds": 1544.3592320799944,
+   "measured": "2026-11-03",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_10p0deg",
+   "pipeline": "pbp",
+   "stage": "Peak segmentation",
+   "notebooks": {
+    "adaptive_basis/domains_mosaicity_10p0deg/segment_peaks/02_segment.ipynb": 239.67937401495874
+   },
+   "seconds": 239.67937401495874,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_10p0deg",
+   "pipeline": "adaptive",
+   "stage": "Peak segmentation",
+   "notebooks": {
+    "adaptive_basis/domains_mosaicity_10p0deg/segment_peaks/02_segment.ipynb": 239.67937401495874
+   },
+   "seconds": 239.67937401495874,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_10p0deg",
+   "pipeline": "pbp",
+   "stage": "Peak indexing",
+   "notebooks": {
+    "adaptive_basis/domains_mosaicity_10p0deg/indexing/02_pbp_index.ipynb": 291.20293236197904,
+    "adaptive_basis/domains_mosaicity_10p0deg/indexing/03_refine.ipynb": 549.6211163800908
+   },
+   "seconds": 840.8240487420699,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_10p0deg",
+   "pipeline": "adaptive",
+   "stage": "Peak indexing",
+   "notebooks": {
+    "adaptive_basis/domains_mosaicity_10p0deg/indexing/02_pbp_index.ipynb": 291.20293236197904,
+    "adaptive_basis/domains_mosaicity_10p0deg/indexing/03_refine.ipynb": 549.6211163800908
+   },
+   "seconds": 840.8240487420699,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_10p0deg",
+   "pipeline": "adaptive",
+   "stage": "Integration",
+   "notebooks": {
+    "integration/domains_mosaicity_10p0deg/01_inspect_integrate.ipynb": 329.60757002898026
+   },
+   "seconds": 329.60757002898026,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_10p0deg",
+   "pipeline": "uniform",
+   "stage": "Integration",
+   "notebooks": {
+    "integration/domains_mosaicity_10p0deg/01_inspect_integrate.ipynb": 329.60757002898026
+   },
+   "seconds": 329.60757002898026,
+   "measured": "2026-10-02",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_10p0deg",
+   "pipeline": "adaptive",
+   "stage": "TT reconstruction",
+   "notebooks": {
+    "texture_tomography/domains_mosaicity_10p0deg/textomo_adaptive.ipynb": 62.472275655003614
+   },
+   "seconds": 62.472275655003614,
+   "measured": "2026-11-03",
+   "host": "n-62-18-4"
+  },
+  {
+   "sample": "domains_mosaicity_10p0deg",
+   "pipeline": "uniform",
+   "stage": "TT reconstruction",
+   "notebooks": {
+    "texture_tomography/domains_mosaicity_10p0deg/textomo_uniform.ipynb": 1531.4767991450062
+   },
+   "seconds": 1531.4767991450062,
+   "measured": "2026-11-03",
+   "host": "n-62-18-4"
   }
+ ],
+ "metrics": {
+  "domains_mosaicity_1p0deg": {
+   "pbp": {
+    "median misorientation (deg)": 0.189,
+    "grain boundary deviation, mean (um)": 0.0272,
+    "grain boundary deviation, mean (display pixels)": 1.0669
+   },
+   "tt_uniform": {
+    "median misorientation (deg)": 1.057,
+    "grain boundary deviation, mean (um)": 0.0201,
+    "grain boundary deviation, mean (display pixels)": 0.7895
+   },
+   "tt_adaptive": {
+    "median misorientation (deg)": 0.216,
+    "grain boundary deviation, mean (um)": 0.0169,
+    "grain boundary deviation, mean (display pixels)": 0.6631
+   }
+  },
+  "domains_mosaicity_10p0deg": {
+   "pbp": {
+    "median misorientation (deg)": 0.404,
+    "grain boundary deviation, mean (um)": 0.0502,
+    "grain boundary deviation, mean (display pixels)": 1.9691
+   },
+   "tt_uniform": {
+    "median misorientation (deg)": 1.243,
+    "grain boundary deviation, mean (um)": 0.0177,
+    "grain boundary deviation, mean (display pixels)": 0.696
+   },
+   "tt_adaptive": {
+    "median misorientation (deg)": 0.329,
+    "grain boundary deviation, mean (um)": 0.0164,
+    "grain boundary deviation, mean (display pixels)": 0.6427
+   }
+  }
+ },
+ "metrics_note": "accuracy of the maps of the seeded uniform grid (np.random.seed(4200), K 100 260), made with diffractom v0.3.0 after the timing run; the times were measured with an unseeded draw (K 100 557 for the 1 degree sample; draws of 150 000 orientations give K 100 178 to 100 557)"
 }

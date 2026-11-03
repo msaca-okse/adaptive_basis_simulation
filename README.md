@@ -39,9 +39,12 @@ checked in the notebooks themselves.
   peak (`quadrature="auto"`; 2 x 4 nodes per bin for the adaptive basis, sigma 0.4 deg, and 1 x 2 for the
   uniform grid, sigma 1.3 deg) instead of being evaluated at the bin centre; the Gaussians are cut at 4 sigma
   (was 3); the tomographic projection uses the pixel footprint (trapezoid) kernel.
+* The uniform grid is now drawn with a fixed seed (`np.random.seed(4200)` in `textomo_uniform.ipynb`, as for the
+  Al1050 sample), so it is the same in every run (K = 100 260); before, every run drew its own grid, which moved the
+  TT-Uniform median misorientation by about 0.1 deg between runs.
 * The texture tomography, the figure panels and the stability sweeps were run again with it. Median
   misorientation to the ground truth, 1 degree sample: TT-Adaptive 0.241 -> 0.216 deg, TT-Uniform
-  1.094 -> 1.161 deg; 10 degree sample: TT-Adaptive 0.346 -> 0.329 deg, TT-Uniform 1.220 -> 1.156 deg (PBP
+  1.094 -> 1.057 deg; 10 degree sample: TT-Adaptive 0.346 -> 0.329 deg, TT-Uniform 1.220 -> 1.243 deg (PBP
   unchanged, 0.189 and 0.404 deg). With the integrated model the adaptive reconstruction no longer gets worse
   beyond 200 iterations (0.329 deg at 200, 0.333 deg at 5000), and narrow kernels no longer fail (0.335 deg at
   sigma = 0.03 deg). sigma = 0.01 deg was dropped from the sweep: the quadrature would need thousands of nodes
@@ -50,8 +53,8 @@ checked in the notebooks themselves.
   (NVIDIA A40, host n-62-18-4): TT-Adaptive 1.2 / 1.0 min (was 0.8 / 1.0), TT-Uniform 25.7 / 25.5 min (was
   16.2 / 16.1) for the 1 / 10 degree samples; the integrated model has twice as many pole-figure non-zeros for
   the uniform grid. The other stages were not rerun (unchanged code). The table of version 1.0.0 is kept as
-  `timing/pipeline_timings_2026-10-03.md`. The uniform grid is drawn without a seed, so the TT-Uniform accuracy
-  in the timing table (its own run: 1.043 / 1.226 deg) differs from that of the notebooks (1.161 / 1.156 deg).
+  `timing/pipeline_timings_2026-10-03.md`. The uniform times were measured just before the seed was added, with
+  an unseeded grid of the same size (K = 100 557); the accuracy in the table is that of the seeded notebooks.
 
 ## Installation
 
